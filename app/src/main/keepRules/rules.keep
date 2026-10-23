@@ -1,0 +1,11 @@
+# Add project specific R8 rules here.
+# AGP will combine all keep rule files in src/main/keepRules to pass to R8
+
+# Keep Memo data model fields for Gson serialization
+-keep class com.dev.secretmemo.data.model.Memo { *; }
+
+# Keep Gson annotations and classes
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
