@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -59,10 +60,21 @@ class MemoEditActivity : AppCompatActivity() {
         }
 
         binding.btnDelete.setOnClickListener {
-            memoId?.let { id ->
-                viewModel.deleteMemo(id)
-            }
+            showDeleteConfirmationDialog()
         }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("메모 삭제")
+            .setMessage("이 메모를 정말 삭제하시겠습니까?")
+            .setPositiveButton("삭제") { _, _ ->
+                memoId?.let { id ->
+                    viewModel.deleteMemo(id)
+                }
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun setupBackNavigation() {
@@ -119,6 +131,7 @@ class MemoEditActivity : AppCompatActivity() {
                     viewModel.isSaved.collect { isSaved ->
                         if (isSaved) {
                             MemoAppWidget.updateAllWidgets(this@MemoEditActivity)
+                            finish()
                         }
                     }
                 }

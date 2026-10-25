@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         setupSearchView()
         setupCalendarView()
         setupFab()
+        setupBackNavigation()
         observeData()
     }
 
@@ -153,11 +155,45 @@ class MainActivity : AppCompatActivity() {
                 counterViewModel.reset(counter.id)
             },
             onDelete = { counter ->
-                counterViewModel.delete(counter.id)
+                showDeleteCounterConfirmationDialog(counter.id, counter.title)
             }
         )
         binding.rvCounters.layoutManager = LinearLayoutManager(this)
         binding.rvCounters.adapter = counterAdapter
+    }
+
+    private fun showDeleteCounterConfirmationDialog(id: String, title: String) {
+        AlertDialog.Builder(this)
+            .setTitle("카운터 삭제")
+            .setMessage("'$title' 카운터를 정말 삭제하시겠습니까?")
+            .setPositiveButton("삭제") { _, _ ->
+                counterViewModel.delete(id)
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun setupBackNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.layoutCalendarContainer.visibility == View.VISIBLE) {
+                    binding.layoutCalendarContainer.visibility = View.GONE
+                } else {
+                    showAppExitConfirmationDialog()
+                }
+            }
+        })
+    }
+
+    private fun showAppExitConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("앱 종료")
+            .setMessage("시크릿 메모 앱을 종료하시겠습니까?")
+            .setPositiveButton("종료") { _, _ ->
+                finish()
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun setupSearchView() {
