@@ -18,6 +18,7 @@ import com.dev.secretmemo.ui.main.MainViewModel
 import com.dev.secretmemo.ui.main.MemoAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +38,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        setupToolbar()
         setupRecyclerView()
         setupSearchView()
+        setupCalendarView()
         setupFab()
         observeMemos()
     }
@@ -46,6 +49,26 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.loadMemos()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.inflateMenu(R.menu.menu_main)
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.action_calendar) {
+                toggleCalendarView()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun toggleCalendarView() {
+        if (binding.calendarView.visibility == View.VISIBLE) {
+            binding.calendarView.visibility = View.GONE
+        } else {
+            binding.calendarView.visibility = View.VISIBLE
+        }
     }
 
     private fun setupRecyclerView() {
@@ -78,6 +101,22 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun setupCalendarView() {
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val cal = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
+            viewModel.filterByDate(cal.timeInMillis)
+        }
+
+        binding.btnClearFilter.setOnClickListener {
+            viewModel.filterByDate(null)
+            binding.calendarView.visibility = View.GONE
+        }
+    }
+
     private fun setupFab() {
         binding.fabAdd.setOnClickListener {
             val intent = Intent(this, MemoEditActivity::class.java)
@@ -88,16 +127,29 @@ class MainActivity : AppCompatActivity() {
     private fun observeMemos() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.memos.collect { memos ->
-                    adapter.submitList(memos) {
-                        binding.rvMemos.scrollToPosition(0)
+                launch {
+                    viewModel.memos.collect { memos ->
+                        adapter.submitList(memos) {
+                            binding.rvMemos.scrollToPosition(0)
+                        }
+                        if (memos.isEmpty()) {
+                            binding.tvEmpty.visibility = View.VISIBLE
+                            binding.rvMemos.visibility = View.GONE
+                        } else {
+                            binding.tvEmpty.visibility = View.GONE
+                            binding.rvMemos.visibility = View.VISIBLE
+                        }
                     }
-                    if (memos.isEmpty()) {
-                        binding.tvEmpty.visibility = View.VISIBLE
-                        binding.rvMemos.visibility = View.GONE
-                    } else {
-                        binding.tvEmpty.visibility = View.GONE
-                        binding.rvMemos.visibility = View.VISIBLE
+                }
+
+                launch {
+                    viewModel.selectedDateMillis.collect { dateMillis ->
+                        if (dateMillis != null) {
+                            binding.layoutFilterInfo.visibility = View.VISIBLE
+                            binding.tvFilterDate.text = "📅 선택된 날짜: ${viewModel.formatDate(dateMillis)}"
+                        } else {
+                            binding.layoutFilterInfo.visibility = View.GONE
+                        }
                     }
                 }
             }

@@ -20,27 +20,46 @@ class MemoEditViewModel(
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean> = _isSaved.asStateFlow()
 
+    private var hasSaved = false
+
     fun loadMemo(id: String?) {
         if (id.isNullOrBlank()) return
         viewModelScope.launch {
-            _memo.value = memoRepository.getMemoById(id)
+            val loaded = memoRepository.getMemoById(id)
+            _memo.value = loaded
         }
     }
 
-    fun saveMemo(
+    fun autoSaveMemo(
         existingId: String?,
         title: String,
         content: String,
         isPinned: Boolean,
-        colorHex: String
+        colorHex: String = "#FFFFFF"
     ) {
-        if (title.isBlank() && content.isBlank()) return
+        if (hasSaved) return
+        val currentTitle = title.trim()
+        val currentContent = content.trim()
 
+        if (currentTitle.isBlank() && currentContent.isBlank()) return
+
+        val initialMemo = _memo.value
+        if (initialMemo != null &&
+            initialMemo.title == currentTitle &&
+            initialMemo.content == currentContent &&
+            initialMemo.isPinned == isPinned &&
+            initialMemo.colorHex == colorHex
+        ) {
+            // No changes made
+            return
+        }
+
+        hasSaved = true
         viewModelScope.launch {
             val memoToSave = Memo(
                 id = existingId?.ifBlank { null } ?: UUID.randomUUID().toString(),
-                title = title.ifBlank { "제목 없음" },
-                content = content,
+                title = currentTitle.ifBlank { "제목 없음" },
+                content = currentContent,
                 updatedAt = System.currentTimeMillis(),
                 isPinned = isPinned,
                 colorHex = colorHex
@@ -51,6 +70,7 @@ class MemoEditViewModel(
     }
 
     fun deleteMemo(id: String) {
+        hasSaved = true
         viewModelScope.launch {
             memoRepository.deleteMemo(id)
             _isSaved.value = true

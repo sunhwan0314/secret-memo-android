@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainViewModel(
     private val memoRepository: MemoRepository
@@ -16,15 +19,24 @@ class MainViewModel(
     private val _memos = MutableStateFlow<List<Memo>>(emptyList())
     val memos: StateFlow<List<Memo>> = _memos.asStateFlow()
 
+    private val _selectedDateMillis = MutableStateFlow<Long?>(null)
+    val selectedDateMillis: StateFlow<Long?> = _selectedDateMillis.asStateFlow()
+
     private var currentQuery: String = ""
 
     fun loadMemos() {
         viewModelScope.launch {
-            val allMemos = memoRepository.getMemos()
-            if (currentQuery.isBlank()) {
-                _memos.value = allMemos
+            val filterDate = _selectedDateMillis.value
+            val baseMemos = if (filterDate != null) {
+                memoRepository.getMemosByDate(filterDate)
             } else {
-                _memos.value = allMemos.filter {
+                memoRepository.getMemos()
+            }
+
+            if (currentQuery.isBlank()) {
+                _memos.value = baseMemos
+            } else {
+                _memos.value = baseMemos.filter {
                     it.title.contains(currentQuery, ignoreCase = true) ||
                             it.content.contains(currentQuery, ignoreCase = true)
                 }
@@ -34,6 +46,11 @@ class MainViewModel(
 
     fun searchMemos(query: String) {
         currentQuery = query
+        loadMemos()
+    }
+
+    fun filterByDate(dateMillis: Long?) {
+        _selectedDateMillis.value = dateMillis
         loadMemos()
     }
 
@@ -49,5 +66,10 @@ class MainViewModel(
             memoRepository.togglePin(id)
             loadMemos()
         }
+    }
+
+    fun formatDate(millis: Long): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date(millis))
     }
 }

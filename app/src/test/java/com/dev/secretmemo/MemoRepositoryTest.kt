@@ -7,6 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.util.Calendar
 
 class MemoRepositoryTest {
 
@@ -27,6 +28,24 @@ class MemoRepositoryTest {
         val memos = repository.getMemos()
         assertEquals(1, memos.size)
         assertEquals("Test Memo", memos[0].title)
+    }
+
+    @Test
+    fun testGetMemosByDate() {
+        val now = System.currentTimeMillis()
+        val memoToday = Memo(id = "1", title = "Today Memo", content = "Content", updatedAt = now)
+
+        val calPast = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, -5)
+        }
+        val memoPast = Memo(id = "2", title = "Past Memo", content = "Content", updatedAt = calPast.timeInMillis)
+
+        repository.saveMemo(memoToday)
+        repository.saveMemo(memoPast)
+
+        val filteredToday = repository.getMemosByDate(now)
+        assertEquals(1, filteredToday.size)
+        assertEquals("Today Memo", filteredToday[0].title)
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.dev.secretmemo.ui.edit
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -39,6 +40,7 @@ class MemoEditActivity : AppCompatActivity() {
         memoId = intent.getStringExtra(EXTRA_MEMO_ID)
 
         setupListeners()
+        setupBackNavigation()
         observeViewModel()
 
         if (memoId != null) {
@@ -49,11 +51,11 @@ class MemoEditActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.toolbarEdit.setNavigationOnClickListener {
-            finish()
+            performAutoSaveAndFinish()
         }
 
         binding.btnSave.setOnClickListener {
-            saveAndExit()
+            performAutoSaveAndFinish()
         }
 
         binding.btnDelete.setOnClickListener {
@@ -63,18 +65,42 @@ class MemoEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveAndExit() {
-        val title = binding.etTitle.text.toString().trim()
-        val content = binding.etContent.text.toString().trim()
+    private fun setupBackNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                performAutoSaveAndFinish()
+            }
+        })
+    }
+
+    private fun performAutoSaveAndFinish() {
+        val title = binding.etTitle.text.toString()
+        val content = binding.etContent.text.toString()
         val isPinned = binding.switchPin.isChecked
 
-        viewModel.saveMemo(
+        viewModel.autoSaveMemo(
             existingId = memoId,
             title = title,
             content = content,
-            isPinned = isPinned,
-            colorHex = "#FFFFFF"
+            isPinned = isPinned
         )
+        MemoAppWidget.updateAllWidgets(this)
+        finish()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val title = binding.etTitle.text.toString()
+        val content = binding.etContent.text.toString()
+        val isPinned = binding.switchPin.isChecked
+
+        viewModel.autoSaveMemo(
+            existingId = memoId,
+            title = title,
+            content = content,
+            isPinned = isPinned
+        )
+        MemoAppWidget.updateAllWidgets(this)
     }
 
     private fun observeViewModel() {
@@ -93,7 +119,6 @@ class MemoEditActivity : AppCompatActivity() {
                     viewModel.isSaved.collect { isSaved ->
                         if (isSaved) {
                             MemoAppWidget.updateAllWidgets(this@MemoEditActivity)
-                            finish()
                         }
                     }
                 }
