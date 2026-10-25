@@ -4,10 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.dev.secretmemo.data.datasource.CounterLocalDataSource
+import com.dev.secretmemo.data.datasource.CounterLocalDataSourceImpl
 import com.dev.secretmemo.data.datasource.MemoLocalDataSource
 import com.dev.secretmemo.data.datasource.MemoLocalDataSourceImpl
+import com.dev.secretmemo.data.repository.CounterRepository
+import com.dev.secretmemo.data.repository.CounterRepositoryImpl
 import com.dev.secretmemo.data.repository.MemoRepository
 import com.dev.secretmemo.data.repository.MemoRepositoryImpl
+import com.dev.secretmemo.ui.counter.CounterViewModel
 import com.dev.secretmemo.ui.edit.MemoEditViewModel
 import com.dev.secretmemo.ui.main.MainViewModel
 import com.google.gson.Gson
@@ -36,9 +41,17 @@ fun provideEncryptedSharedPreferences(context: Context): SharedPreferences {
 val appModule = module {
     single<SharedPreferences> { provideEncryptedSharedPreferences(androidContext()) }
     single { Gson() }
+    
+    // Memo
     single<MemoLocalDataSource> { MemoLocalDataSourceImpl(get(), get()) }
     single<MemoRepository> { MemoRepositoryImpl(get()) }
     
+    // Counter
+    single<CounterLocalDataSource> { CounterLocalDataSourceImpl(get(), get()) }
+    single<CounterRepository> { CounterRepositoryImpl(get()) }
+    
+    // ViewModels
     viewModel { MainViewModel(get()) }
     viewModel { MemoEditViewModel(get()) }
+    viewModel { CounterViewModel(get()) }
 }

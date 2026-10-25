@@ -26,7 +26,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_search_view"
             app:iconifiedByDefault="false"
-            app:queryHint="메모 검색..." />
+            app:queryHint="검색..." />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -82,28 +82,62 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <!-- Main Content Area -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMemos"
+        <!-- Memo Container -->
+        <FrameLayout
+            android:id="@+id/layoutMemoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMemos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="6dp" />
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="저장된 메모가 없습니다.\n오른쪽 아래 + 버튼을 눌러 추가하세요."
+                android:textAlignment="center"
+                android:textColor="#888888"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- Counter Container -->
+        <FrameLayout
+            android:id="@+id/layoutCounterContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="6dp" />
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tvEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="저장된 메모가 없습니다.\n오른쪽 아래 + 버튼을 눌러 추가하세요."
-            android:textAlignment="center"
-            android:textColor="#888888"
-            android:textSize="15sp"
-            android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCounters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="6dp" />
+
+            <TextView
+                android:id="@+id/tvCounterEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="등록된 카운터가 없습니다.\n오른쪽 아래 + 버튼을 눌러 추가하세요."
+                android:textAlignment="center"
+                android:textColor="#888888"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAdd"
@@ -111,8 +145,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="메모 추가"
+            android:contentDescription="항목 추가"
             app:srcCompat="@android:drawable/ic_input_add" />
+
     </FrameLayout>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@menu/menu_bottom_nav" />
 
 </LinearLayout>

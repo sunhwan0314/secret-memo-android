@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -15,8 +17,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev.secretmemo.databinding.ActivityMainBinding
+import com.dev.secretmemo.ui.counter.CounterAdapter
+import com.dev.secretmemo.ui.counter.CounterViewModel
 import com.dev.secretmemo.ui.edit.MemoEditActivity
 import com.dev.secretmemo.ui.main.MainViewModel
 import com.dev.secretmemo.ui.main.MemoAdapter
@@ -27,8 +32,13 @@ import java.util.Calendar
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModel()
-    private lateinit var adapter: MemoAdapter
+    private val mainViewModel: MainViewModel by viewModel()
+    private val counterViewModel: CounterViewModel by viewModel()
+
+    private lateinit var memoAdapter: MemoAdapter
+    private lateinit var counterAdapter: CounterAdapter
+
+    private var isMemoTab = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +53,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupToolbar()
-        setupRecyclerView()
+        setupBottomNav()
+        setupMemoRecyclerView()
+        setupCounterRecyclerView()
         setupSearchView()
         setupCalendarView()
         setupFab()
-        observeMemos()
+        observeData()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadMemos()
+        mainViewModel.loadMemos()
+        counterViewModel.loadCounters()
     }
 
     private fun setupToolbar() {
@@ -60,6 +73,12 @@ class MainActivity : AppCompatActivity() {
         addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_main, menu)
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                super.onPrepareMenu(menu)
+                val calendarItem = menu.findItem(R.id.action_calendar)
+                calendarItem?.isVisible = isMemoTab
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -73,6 +92,31 @@ class MainActivity : AppCompatActivity() {
         }, this, Lifecycle.State.RESUMED)
     }
 
+    private fun setupBottomNav() {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_memo -> {
+                    isMemoTab = true
+                    binding.layoutMemoContainer.visibility = View.VISIBLE
+                    binding.layoutCounterContainer.visibility = View.GONE
+                    binding.toolbar.title = "시크릿 메모"
+                    invalidateOptionsMenu()
+                    true
+                }
+                R.id.nav_counter -> {
+                    isMemoTab = false
+                    binding.layoutMemoContainer.visibility = View.GONE
+                    binding.layoutCounterContainer.visibility = View.VISIBLE
+                    binding.layoutCalendarContainer.visibility = View.GONE
+                    binding.toolbar.title = "카운터 목록"
+                    invalidateOptionsMenu()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     private fun toggleCalendarView() {
         if (binding.layoutCalendarContainer.visibility == View.VISIBLE) {
             binding.layoutCalendarContainer.visibility = View.GONE
@@ -81,8 +125,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView() {
-        adapter = MemoAdapter(
+    private fun setupMemoRecyclerView() {
+        memoAdapter = MemoAdapter(
             onItemClick = { memo ->
                 val intent = Intent(this, MemoEditActivity::class.java).apply {
                     putExtra(MemoEditActivity.EXTRA_MEMO_ID, memo.id)
@@ -90,22 +134,45 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             },
             onPinClick = { memo ->
-                viewModel.togglePin(memo.id)
+                mainViewModel.togglePin(memo.id)
             }
         )
         binding.rvMemos.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvMemos.adapter = adapter
+        binding.rvMemos.adapter = memoAdapter
+    }
+
+    private fun setupCounterRecyclerView() {
+        counterAdapter = CounterAdapter(
+            onIncrement = { counter ->
+                counterViewModel.increment(counter.id)
+            },
+            onDecrement = { counter ->
+                counterViewModel.decrement(counter.id)
+            },
+            onReset = { counter ->
+                counterViewModel.reset(counter.id)
+            },
+            onDelete = { counter ->
+                counterViewModel.delete(counter.id)
+            }
+        )
+        binding.rvCounters.layoutManager = LinearLayoutManager(this)
+        binding.rvCounters.adapter = counterAdapter
     }
 
     private fun setupSearchView() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.searchMemos(query.orEmpty())
+                if (isMemoTab) {
+                    mainViewModel.searchMemos(query.orEmpty())
+                }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchMemos(newText.orEmpty())
+                if (isMemoTab) {
+                    mainViewModel.searchMemos(newText.orEmpty())
+                }
                 return true
             }
         })
@@ -118,28 +185,51 @@ class MainActivity : AppCompatActivity() {
                 set(Calendar.MONTH, month)
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
-            viewModel.filterByDate(cal.timeInMillis)
+            mainViewModel.filterByDate(cal.timeInMillis)
         }
 
         binding.btnClearFilter.setOnClickListener {
-            viewModel.filterByDate(null)
+            mainViewModel.filterByDate(null)
             binding.layoutCalendarContainer.visibility = View.GONE
         }
     }
 
     private fun setupFab() {
         binding.fabAdd.setOnClickListener {
-            val intent = Intent(this, MemoEditActivity::class.java)
-            startActivity(intent)
+            if (isMemoTab) {
+                val intent = Intent(this, MemoEditActivity::class.java)
+                startActivity(intent)
+            } else {
+                showAddCounterDialog()
+            }
         }
     }
 
-    private fun observeMemos() {
+    private fun showAddCounterDialog() {
+        val editText = EditText(this).apply {
+            hint = "카운터 이름 (예: 운동 횟수)"
+            setPadding(48, 32, 48, 32)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("새 카운터 추가")
+            .setView(editText)
+            .setPositiveButton("생성") { _, _ ->
+                val name = editText.text.toString().trim()
+                if (name.isNotBlank()) {
+                    counterViewModel.createCounter(name)
+                }
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun observeData() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.memos.collect { memos ->
-                        adapter.submitList(memos) {
+                    mainViewModel.memos.collect { memos ->
+                        memoAdapter.submitList(memos) {
                             binding.rvMemos.scrollToPosition(0)
                         }
                         if (memos.isEmpty()) {
@@ -153,12 +243,25 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 launch {
-                    viewModel.selectedDateMillis.collect { dateMillis ->
+                    mainViewModel.selectedDateMillis.collect { dateMillis ->
                         if (dateMillis != null) {
                             binding.layoutFilterInfo.visibility = View.VISIBLE
-                            binding.tvFilterDate.text = "📅 선택된 날짜: ${viewModel.formatDate(dateMillis)}"
+                            binding.tvFilterDate.text = "📅 선택된 날짜: ${mainViewModel.formatDate(dateMillis)}"
                         } else {
                             binding.layoutFilterInfo.visibility = View.GONE
+                        }
+                    }
+                }
+
+                launch {
+                    counterViewModel.counters.collect { counters ->
+                        counterAdapter.submitList(counters)
+                        if (counters.isEmpty()) {
+                            binding.tvCounterEmpty.visibility = View.VISIBLE
+                            binding.rvCounters.visibility = View.GONE
+                        } else {
+                            binding.tvCounterEmpty.visibility = View.GONE
+                            binding.rvCounters.visibility = View.VISIBLE
                         }
                     }
                 }
