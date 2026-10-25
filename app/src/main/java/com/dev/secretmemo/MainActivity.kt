@@ -2,10 +2,14 @@ package com.dev.secretmemo
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
@@ -52,22 +56,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.inflateMenu(R.menu.menu_main)
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.action_calendar) {
-                toggleCalendarView()
-                true
-            } else {
-                false
+        setSupportActionBar(binding.toolbar)
+        addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_main, menu)
             }
-        }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return if (menuItem.itemId == R.id.action_calendar) {
+                    toggleCalendarView()
+                    true
+                } else {
+                    false
+                }
+            }
+        }, this, Lifecycle.State.RESUMED)
     }
 
     private fun toggleCalendarView() {
-        if (binding.calendarView.visibility == View.VISIBLE) {
-            binding.calendarView.visibility = View.GONE
+        if (binding.layoutCalendarContainer.visibility == View.VISIBLE) {
+            binding.layoutCalendarContainer.visibility = View.GONE
         } else {
-            binding.calendarView.visibility = View.VISIBLE
+            binding.layoutCalendarContainer.visibility = View.VISIBLE
         }
     }
 
@@ -113,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnClearFilter.setOnClickListener {
             viewModel.filterByDate(null)
-            binding.calendarView.visibility = View.GONE
+            binding.layoutCalendarContainer.visibility = View.GONE
         }
     }
 

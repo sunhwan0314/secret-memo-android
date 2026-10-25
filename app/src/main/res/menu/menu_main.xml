@@ -6,6 +6,7 @@
         android:id="@+id/action_calendar"
         android:icon="@android:drawable/ic_menu_today"
         android:title="달력 보기"
+        app:iconTint="@color/white"
         app:showAsAction="always" />
 
 </menu>

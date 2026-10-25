@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -27,50 +28,64 @@
             app:iconifiedByDefault="false"
             app:queryHint="메모 검색..." />
 
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Calendar View Container -->
+    <LinearLayout
+        android:id="@+id/layoutCalendarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:background="#FFFFFF" />
 
-        <LinearLayout
-            android:id="@+id/layoutFilterInfo"
-            android:layout_width="match_parent"
+    </LinearLayout>
+
+    <!-- Selected Date Filter Banner -->
+    <LinearLayout
+        android:id="@+id/layoutFilterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#333333"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvFilterDate"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="📅 선택된 날짜: 2025-01-01" />
 
-            <TextView
-                android:id="@+id/tvFilterDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                tools:text="📅 선택된 날짜: 2025-01-01" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnClearFilter"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체 보기"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClearFilter"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체 보기"
+            android:textColor="#FF8A80"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMemos"
@@ -89,15 +104,15 @@
             android:textColor="#888888"
             android:textSize="15sp"
             android:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="메모 추가"
+            app:srcCompat="@android:drawable/ic_input_add" />
     </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="메모 추가"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
