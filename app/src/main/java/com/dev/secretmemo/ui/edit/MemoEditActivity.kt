@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.dev.secretmemo.databinding.ActivityMemoEditBinding
+import com.dev.secretmemo.util.ThemeManager
 import com.dev.secretmemo.widget.MemoAppWidget
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,6 +49,18 @@ class MemoEditActivity : AppCompatActivity() {
             binding.btnDelete.visibility = View.VISIBLE
             viewModel.loadMemo(memoId)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyTheme()
+    }
+
+    private fun applyTheme() {
+        val palette = ThemeManager.getThemePalette(this)
+        binding.toolbarEdit.setBackgroundColor(palette.primaryColor)
+        binding.toolbarEdit.setTitleTextColor(android.graphics.Color.WHITE)
+        window.statusBarColor = palette.primaryDarkColor
     }
 
     private fun setupListeners() {

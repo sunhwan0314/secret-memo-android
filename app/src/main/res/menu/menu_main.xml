@@ -9,4 +9,11 @@
         app:iconTint="@color/white"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_theme_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="테마 설정"
+        app:iconTint="@color/white"
+        app:showAsAction="always" />
+
 </menu>

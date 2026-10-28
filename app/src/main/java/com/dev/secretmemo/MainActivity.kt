@@ -1,6 +1,7 @@
 package com.dev.secretmemo
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -26,6 +27,8 @@ import com.dev.secretmemo.ui.counter.CounterViewModel
 import com.dev.secretmemo.ui.edit.MemoEditActivity
 import com.dev.secretmemo.ui.main.MainViewModel
 import com.dev.secretmemo.ui.main.MemoAdapter
+import com.dev.secretmemo.util.ThemeManager
+import com.dev.secretmemo.util.ThemeMode
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
@@ -66,8 +69,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        applyTheme()
         mainViewModel.loadMemos()
         counterViewModel.loadCounters()
+    }
+
+    private fun applyTheme() {
+        val palette = ThemeManager.getThemePalette(this)
+        
+        binding.toolbar.setBackgroundColor(palette.primaryColor)
+        window.statusBarColor = palette.primaryDarkColor
+        
+        binding.fabAdd.backgroundTintList = ColorStateList.valueOf(palette.accentColor)
+        binding.layoutFilterInfo.setBackgroundColor(palette.accentColor)
+        
+        val navColorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            ),
+            intArrayOf(
+                palette.primaryColor,
+                0x8A000000.toInt()
+            )
+        )
+        binding.bottomNav.itemIconTintList = navColorStateList
+        binding.bottomNav.itemTextColor = navColorStateList
     }
 
     private fun setupToolbar() {
@@ -84,14 +111,41 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return if (menuItem.itemId == R.id.action_calendar) {
-                    toggleCalendarView()
-                    true
-                } else {
-                    false
+                return when (menuItem.itemId) {
+                    R.id.action_calendar -> {
+                        toggleCalendarView()
+                        true
+                    }
+                    R.id.action_theme_settings -> {
+                        showThemeSettingsDialog()
+                        true
+                    }
+                    else -> false
                 }
             }
         }, this, Lifecycle.State.RESUMED)
+    }
+
+    private fun showThemeSettingsDialog() {
+        val modes = ThemeMode.entries.toTypedArray()
+        val items = modes.map { it.displayName }.toTypedArray()
+        val currentMode = ThemeManager.getSavedThemeMode(this)
+        val selectedIndex = modes.indexOf(currentMode).coerceAtLeast(0)
+
+        var tempSelectedIndex = selectedIndex
+
+        AlertDialog.Builder(this)
+            .setTitle("🎨 앱 테마 설정")
+            .setSingleChoiceItems(items, selectedIndex) { _, which ->
+                tempSelectedIndex = which
+            }
+            .setPositiveButton("적용") { _, _ ->
+                val newMode = modes[tempSelectedIndex]
+                ThemeManager.saveThemeMode(this, newMode)
+                applyTheme()
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun setupBottomNav() {
