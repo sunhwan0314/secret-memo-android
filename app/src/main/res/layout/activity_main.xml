@@ -147,7 +147,8 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="항목 추가"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@drawable/ic_add"
+            app:tint="@color/white" />
 
     </FrameLayout>
 

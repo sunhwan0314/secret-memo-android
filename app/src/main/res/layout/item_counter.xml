@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    app:cardBackgroundColor="#FAFFFFFF"
     app:cardCornerRadius="16dp"
     app:cardElevation="3dp"
     app:strokeColor="#1F000000"
@@ -39,7 +40,7 @@
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="카운터 삭제"
-                android:src="@android:drawable/ic_menu_delete" />
+                android:src="@drawable/ic_delete" />
         </RelativeLayout>
 
         <TextView

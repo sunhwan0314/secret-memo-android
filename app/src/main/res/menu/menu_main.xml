@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/action_calendar"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/ic_calendar"
         android:title="달력 보기"
         app:iconTint="@color/white"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_theme_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_settings"
         android:title="테마 설정"
         app:iconTint="@color/white"
         app:showAsAction="always" />

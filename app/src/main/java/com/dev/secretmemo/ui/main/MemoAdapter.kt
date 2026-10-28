@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dev.secretmemo.R
 import com.dev.secretmemo.data.model.Memo
 import com.dev.secretmemo.databinding.ItemMemoBinding
 import java.text.SimpleDateFormat
@@ -43,9 +44,9 @@ class MemoAdapter(
             binding.tvDate.text = dateFormat.format(Date(memo.updatedAt))
 
             val starIcon = if (memo.isPinned) {
-                android.R.drawable.btn_star_big_on
+                R.drawable.ic_star_filled
             } else {
-                android.R.drawable.btn_star_big_off
+                R.drawable.ic_star_outline
             }
             binding.btnPin.setImageResource(starIcon)
 
