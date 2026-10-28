@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="640dp"
+    android:viewportWidth="360"
+    android:viewportHeight="640">
+
+    <!-- Autumn Sunset Sky Gradient -->
+    <path
+        android:pathData="M0,0h360v640h-360z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="270"
+                android:endColor="#FFE0B2"
+                android:startColor="#FFF3E0" />
+        </aapt:attr>
+    </path>
+
+    <!-- Maple Leaves -->
+    <path
+        android:fillColor="#E64A19"
+        android:pathData="M60,100 L70,80 L75,95 L90,90 L80,105 L95,115 L78,115 L80,130 L70,120 L60,130 L62,115 L45,115 L60,105 Z" />
+
+    <path
+        android:fillColor="#FF8F00"
+        android:pathData="M260,140 L270,120 L275,135 L290,130 L280,145 L295,155 L278,155 L280,170 L270,160 L260,170 L262,155 L245,155 L260,145 Z" />
+
+    <!-- Autumn Hills -->
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M0,480 Q100,440 200,490 T360,460 L360,640 L0,640 Z" />
+
+    <path
+        android:fillColor="#8D6E63"
+        android:pathData="M0,530 Q120,490 240,540 T360,510 L360,640 L0,640 Z" />
+
+</vector>

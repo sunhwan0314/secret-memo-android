@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun applyTheme() {
         val palette = ThemeManager.getThemePalette(this)
         
+        binding.root.setBackgroundResource(palette.backgroundResId)
         binding.toolbar.setBackgroundColor(palette.primaryColor)
         window.statusBarColor = palette.primaryDarkColor
         

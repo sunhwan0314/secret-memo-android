@@ -58,6 +58,7 @@ class MemoEditActivity : AppCompatActivity() {
 
     private fun applyTheme() {
         val palette = ThemeManager.getThemePalette(this)
+        binding.root.setBackgroundResource(palette.backgroundResId)
         binding.toolbarEdit.setBackgroundColor(palette.primaryColor)
         binding.toolbarEdit.setTitleTextColor(android.graphics.Color.WHITE)
         window.statusBarColor = palette.primaryDarkColor

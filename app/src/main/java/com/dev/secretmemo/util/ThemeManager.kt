@@ -3,6 +3,7 @@ package com.dev.secretmemo.util
 import android.content.Context
 import android.graphics.Color
 import androidx.core.content.edit
+import com.dev.secretmemo.R
 import java.util.Calendar
 
 enum class ThemeMode(val key: String, val displayName: String) {
@@ -24,6 +25,7 @@ data class ThemePalette(
     val primaryDarkColor: Int,
     val accentColor: Int,
     val backgroundColor: Int,
+    val backgroundResId: Int,
     val name: String
 )
 
@@ -57,6 +59,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#B71C1C"),
                 accentColor = Color.parseColor("#2E7D32"),     // Pine Green
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_winter,
                 name = "크리스마스 & 겨울"
             )
             ThemeMode.SPRING -> ThemePalette(
@@ -64,6 +67,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#C2185B"),
                 accentColor = Color.parseColor("#4CAF50"),     // Soft Green
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_spring,
                 name = "봄 벚꽃"
             )
             ThemeMode.SUMMER -> ThemePalette(
@@ -71,6 +75,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#01579B"),
                 accentColor = Color.parseColor("#00ACC1"),     // Turquoise
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_summer,
                 name = "여름 바다"
             )
             ThemeMode.AUTUMN -> ThemePalette(
@@ -78,6 +83,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#BF360C"),
                 accentColor = Color.parseColor("#FF8F00"),     // Amber
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_autumn,
                 name = "가을 단풍"
             )
             ThemeMode.AUTO -> getThemePaletteForMode(getAutoSeasonThemeMode())
@@ -91,6 +97,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#B71C1C"),
                 accentColor = Color.parseColor("#2E7D32"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_winter,
                 name = "크리스마스 & 겨울 (자동)"
             )
             ThemeMode.SPRING -> ThemePalette(
@@ -98,6 +105,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#C2185B"),
                 accentColor = Color.parseColor("#4CAF50"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_spring,
                 name = "봄 벚꽃 (자동)"
             )
             ThemeMode.SUMMER -> ThemePalette(
@@ -105,6 +113,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#01579B"),
                 accentColor = Color.parseColor("#00ACC1"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_summer,
                 name = "여름 바다 (자동)"
             )
             ThemeMode.AUTUMN -> ThemePalette(
@@ -112,6 +121,7 @@ object ThemeManager {
                 primaryDarkColor = Color.parseColor("#BF360C"),
                 accentColor = Color.parseColor("#FF8F00"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
+                backgroundResId = R.drawable.bg_theme_autumn,
                 name = "가을 단풍 (자동)"
             )
             ThemeMode.AUTO -> getThemePaletteForMode(ThemeMode.WINTER)

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="640dp"
+    android:viewportWidth="360"
+    android:viewportHeight="640">
+
+    <!-- Summer Sky Gradient -->
+    <path
+        android:pathData="M0,0h360v640h-360z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="270"
+                android:endColor="#80DEEA"
+                android:startColor="#E0F7FA" />
+        </aapt:attr>
+    </path>
+
+    <!-- Sunshine -->
+    <path
+        android:fillColor="#FDD835"
+        android:pathData="M300,70 m-35,0 a35,35 0 1,0 70,0 a35,35 0 1,0 -70,0" />
+
+    <!-- Clouds -->
+    <path
+        android:fillColor="#80FFFFFF"
+        android:pathData="M50,120 Q70,100 90,120 T130,120 L130,135 L50,135 Z M200,90 Q215,75 230,90 T260,90 L260,102 L200,102 Z" />
+
+    <!-- Ocean Waves -->
+    <path
+        android:fillColor="#4DD0E1"
+        android:pathData="M0,480 Q90,450 180,480 T360,450 L360,640 L0,640 Z" />
+
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M0,530 Q100,500 200,540 T360,510 L360,640 L0,640 Z" />
+
+</vector>

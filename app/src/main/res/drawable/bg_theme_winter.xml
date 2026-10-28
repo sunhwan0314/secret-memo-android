@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="640dp"
+    android:viewportWidth="360"
+    android:viewportHeight="640">
+
+    <!-- Night Sky Gradient -->
+    <path
+        android:pathData="M0,0h360v640h-360z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="270"
+                android:endColor="#0D2040"
+                android:startColor="#1A365D" />
+        </aapt:attr>
+    </path>
+
+    <!-- Christmas Star -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M180,50 l5,12 l13,2 L189,73 l2,13 L180,79 L170,86 l2,-13 L162,64 l13,-2 z" />
+
+    <!-- Snowflakes -->
+    <path
+        android:fillColor="#A0FFFFFF"
+        android:pathData="M60,100h6v6h-6z M270,80h5v5h-5z M50,200h5v5h-5z M300,180h6v6h-6z M120,70h4v4h-4z M230,150h4v4h-4z" />
+
+    <!-- Snow Hills -->
+    <path
+        android:fillColor="#20FFFFFF"
+        android:pathData="M0,430 Q100,400 200,450 T360,420 L360,640 L0,640 Z" />
+
+    <path
+        android:fillColor="#E0F2FE"
+        android:pathData="M0,500 Q130,470 270,520 T360,490 L360,640 L0,640 Z" />
+
+    <!-- Christmas Pine Trees Silhouettes -->
+    <!-- Tree 1 -->
+    <path
+        android:fillColor="#1B4D3E"
+        android:pathData="M50,510 L25,550 L40,550 L20,580 L80,580 L60,550 L75,550 Z" />
+
+    <!-- Tree 2 (Central Big Christmas Tree) -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M180,460 L145,510 L160,510 L130,560 L150,560 L120,610 L240,610 L210,560 L230,560 L200,510 L215,510 Z" />
+
+    <!-- Tree Star -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M180,450 l3,6 l6,1 l-4,4 l1,6 l-6,-3 l-6,3 l1,-6 l-4,-4 l6,-1 z" />
+
+    <!-- Tree 3 -->
+    <path
+        android:fillColor="#1B4D3E"
+        android:pathData="M290,490 L265,530 L280,530 L260,570 L320,570 L300,530 L315,530 Z" />
+
+</vector>
