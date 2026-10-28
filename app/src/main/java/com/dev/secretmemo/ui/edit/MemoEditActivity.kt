@@ -60,6 +60,7 @@ class MemoEditActivity : AppCompatActivity() {
         val palette = ThemeManager.getThemePalette(this)
         binding.root.setBackgroundResource(palette.backgroundResId)
         binding.toolbarEdit.setBackgroundColor(palette.primaryColor)
+        binding.toolbarEdit.title = "${palette.emoji} 메모 작성"
         binding.toolbarEdit.setTitleTextColor(android.graphics.Color.WHITE)
         window.statusBarColor = palette.primaryDarkColor
     }

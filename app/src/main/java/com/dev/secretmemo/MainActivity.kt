@@ -13,7 +13,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -80,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         
         binding.root.setBackgroundResource(palette.backgroundResId)
         binding.toolbar.setBackgroundColor(palette.primaryColor)
+        binding.toolbar.title = if (isMemoTab) "${palette.emoji} 시크릿 메모" else "${palette.emoji} 카운터 목록"
         window.statusBarColor = palette.primaryDarkColor
         
         binding.fabAdd.backgroundTintList = ColorStateList.valueOf(palette.accentColor)
@@ -152,12 +152,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNav() {
         binding.bottomNav.setOnItemSelectedListener { item ->
+            val palette = ThemeManager.getThemePalette(this)
             when (item.itemId) {
                 R.id.nav_memo -> {
                     isMemoTab = true
                     binding.layoutMemoContainer.visibility = View.VISIBLE
                     binding.layoutCounterContainer.visibility = View.GONE
-                    binding.toolbar.title = "시크릿 메모"
+                    binding.toolbar.title = "${palette.emoji} 시크릿 메모"
                     invalidateOptionsMenu()
                     true
                 }
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                     binding.layoutMemoContainer.visibility = View.GONE
                     binding.layoutCounterContainer.visibility = View.VISIBLE
                     binding.layoutCalendarContainer.visibility = View.GONE
-                    binding.toolbar.title = "카운터 목록"
+                    binding.toolbar.title = "${palette.emoji} 카운터 목록"
                     invalidateOptionsMenu()
                     true
                 }

@@ -26,6 +26,7 @@ data class ThemePalette(
     val accentColor: Int,
     val backgroundColor: Int,
     val backgroundResId: Int,
+    val emoji: String,
     val name: String
 )
 
@@ -60,6 +61,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#2E7D32"),     // Pine Green
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_winter,
+                emoji = "🎄",
                 name = "크리스마스 & 겨울"
             )
             ThemeMode.SPRING -> ThemePalette(
@@ -68,6 +70,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#4CAF50"),     // Soft Green
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_spring,
+                emoji = "🌸",
                 name = "봄 벚꽃"
             )
             ThemeMode.SUMMER -> ThemePalette(
@@ -76,6 +79,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#00ACC1"),     // Turquoise
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_summer,
+                emoji = "☀️",
                 name = "여름 바다"
             )
             ThemeMode.AUTUMN -> ThemePalette(
@@ -84,6 +88,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#FF8F00"),     // Amber
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_autumn,
+                emoji = "🍁",
                 name = "가을 단풍"
             )
             ThemeMode.AUTO -> getThemePaletteForMode(getAutoSeasonThemeMode())
@@ -98,6 +103,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#2E7D32"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_winter,
+                emoji = "🎄",
                 name = "크리스마스 & 겨울 (자동)"
             )
             ThemeMode.SPRING -> ThemePalette(
@@ -106,6 +112,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#4CAF50"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_spring,
+                emoji = "🌸",
                 name = "봄 벚꽃 (자동)"
             )
             ThemeMode.SUMMER -> ThemePalette(
@@ -114,6 +121,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#00ACC1"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_summer,
+                emoji = "☀️",
                 name = "여름 바다 (자동)"
             )
             ThemeMode.AUTUMN -> ThemePalette(
@@ -122,6 +130,7 @@ object ThemeManager {
                 accentColor = Color.parseColor("#FF8F00"),
                 backgroundColor = Color.parseColor("#FAFAFA"),
                 backgroundResId = R.drawable.bg_theme_autumn,
+                emoji = "🍁",
                 name = "가을 단풍 (자동)"
             )
             ThemeMode.AUTO -> getThemePaletteForMode(ThemeMode.WINTER)
