@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun applyTheme() {
         binding.toolbar.setBackgroundColor(Color.parseColor("#09090B"))
-        binding.toolbar.title = if (isMemoTab) "시크릿 메모" else "카운터 목록"
+        binding.toolbar.title = if (isMemoTab) "담다" else "카운터 목록"
         window.statusBarColor = Color.parseColor("#000000")
         
         val navColorStateList = ColorStateList(
@@ -149,10 +149,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showPrivacyPolicyDialog() {
         val policyText = """
-            [시크릿 메모 개인정보 처리방침]
+            [담다 개인정보 처리방침]
 
             1. 개인정보 처리 목적
-            시크릿 메모 앱은 사용자의 개인 메모 및 카운터 데이터를 관리하기 위한 목적으로만 가동됩니다.
+            담다 앱은 사용자의 개인 메모 및 카운터 데이터를 관리하기 위한 목적으로만 가동됩니다.
 
             2. 개인정보 저장 및 암호화
             작성된 모든 메모와 카운터 데이터는 기기 내부 안드로이드 보안 저장소(EncryptedSharedPreferences)에 AES-256 규격으로 안전하게 암호화되어 보존됩니다.
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAboutAppDialog() {
         val aboutText = """
-            [시크릿 메모 (Secret Memo)]
+            [담다 (Damda)]
             버전: 1.0.0 (v1)
             패키지: com.dev.secretmemo
 
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
             - Google Gson (Apache 2.0)
             - Jetpack Security Crypto (Apache 2.0)
 
-            © 2025 Secret Memo. All rights reserved.
+            © 2025 Damda. All rights reserved.
         """.trimIndent()
 
         AlertDialog.Builder(this)
@@ -196,10 +196,10 @@ class MainActivity : AppCompatActivity() {
     private fun shareApp() {
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "안전한 암호화 메모 앱 '시크릿 메모'를 사용해 보세요!\nhttps://play.google.com/store/apps/details?id=$packageName")
+            putExtra(Intent.EXTRA_TEXT, "생각을 기록하고 간편하게 담아두는 앱 '담다'를 사용해 보세요!\nhttps://play.google.com/store/apps/details?id=$packageName")
             type = "text/plain"
         }
-        val shareIntent = Intent.createChooser(sendIntent, "시크릿 메모 공유하기")
+        val shareIntent = Intent.createChooser(sendIntent, "담다 앱 공유하기")
         startActivity(shareIntent)
     }
 
@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val sb = StringBuilder()
-        sb.append("=== 시크릿 메모 백업 (${memos.size}개) ===\n\n")
+        sb.append("=== 담다 메모 백업 (${memos.size}개) ===\n\n")
         memos.forEachIndexed { index, memo ->
             sb.append("${index + 1}. [${memo.title}]\n")
             sb.append("${memo.content}\n")
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity() {
                     isMemoTab = true
                     binding.layoutMemoContainer.visibility = View.VISIBLE
                     binding.layoutCounterContainer.visibility = View.GONE
-                    binding.toolbar.title = "시크릿 메모"
+                    binding.toolbar.title = "담다"
                     invalidateOptionsMenu()
                     true
                 }
@@ -328,7 +328,7 @@ class MainActivity : AppCompatActivity() {
     private fun showAppExitConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("앱 종료")
-            .setMessage("시크릿 메모 앱을 종료하시겠습니까?")
+            .setMessage("'담다' 앱을 종료하시겠습니까?")
             .setPositiveButton("종료") { _, _ ->
                 finish()
             }

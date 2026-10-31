@@ -46,7 +46,7 @@ class MemoAppWidget : AppWidgetProvider(), KoinComponent {
             views.setTextViewText(R.id.widgetContent, topMemo.content)
         } else {
             views.setTextViewText(R.id.widgetTitle, "저장된 메모가 없습니다")
-            views.setTextViewText(R.id.widgetContent, "앱을 실행하여 메모를 작성해 보세요.")
+            views.setTextViewText(R.id.widgetContent, "담다 앱을 실행하여 메모를 작성해 보세요.")
         }
 
         val intent = Intent(context, MainActivity::class.java)
