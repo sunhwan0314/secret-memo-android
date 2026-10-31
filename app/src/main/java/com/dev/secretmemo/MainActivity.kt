@@ -2,6 +2,7 @@ package com.dev.secretmemo
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -29,8 +30,6 @@ import com.dev.secretmemo.ui.counter.CounterViewModel
 import com.dev.secretmemo.ui.edit.MemoEditActivity
 import com.dev.secretmemo.ui.main.MainViewModel
 import com.dev.secretmemo.ui.main.MemoAdapter
-import com.dev.secretmemo.util.ThemeManager
-import com.dev.secretmemo.util.ThemeMode
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
@@ -59,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupToolbar()
+        applyTheme()
         setupBottomNav()
         setupMemoRecyclerView()
         setupCounterRecyclerView()
@@ -71,21 +71,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        applyTheme()
         mainViewModel.loadMemos()
         counterViewModel.loadCounters()
     }
 
     private fun applyTheme() {
-        val palette = ThemeManager.getThemePalette(this)
-        
-        binding.root.setBackgroundResource(palette.backgroundResId)
-        binding.toolbar.setBackgroundColor(palette.primaryColor)
-        binding.toolbar.title = if (isMemoTab) "${palette.emoji} 시크릿 메모" else "${palette.emoji} 카운터 목록"
-        window.statusBarColor = palette.primaryDarkColor
-        
-        binding.fabAdd.backgroundTintList = ColorStateList.valueOf(palette.accentColor)
-        binding.layoutFilterInfo.setBackgroundColor(palette.accentColor)
+        binding.toolbar.setBackgroundColor(Color.parseColor("#09090B"))
+        binding.toolbar.title = if (isMemoTab) "시크릿 메모" else "카운터 목록"
+        window.statusBarColor = Color.parseColor("#000000")
         
         val navColorStateList = ColorStateList(
             arrayOf(
@@ -93,8 +86,8 @@ class MainActivity : AppCompatActivity() {
                 intArrayOf(-android.R.attr.state_checked)
             ),
             intArrayOf(
-                palette.primaryColor,
-                0x8A000000.toInt()
+                Color.parseColor("#09090B"),
+                Color.parseColor("#A1A1AA")
             )
         )
         binding.bottomNav.itemIconTintList = navColorStateList
@@ -120,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                         toggleCalendarView()
                         true
                     }
-                    R.id.action_theme_settings -> {
+                    R.id.action_settings -> {
                         showSettingsMenuDialog()
                         true
                     }
@@ -132,49 +125,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSettingsMenuDialog() {
         val options = arrayOf(
-            "🎨 계절 테마 설정",
-            "📄 개인정보 처리방침",
-            "💾 메모 백업하기",
-            "🔗 앱 공유하기",
-            "⭐ 플레이스토어 평가하기",
-            "ℹ️ 앱 정보 및 라이선스"
+            "개인정보 처리방침",
+            "메모 백업하기",
+            "앱 공유하기",
+            "플레이스토어 평가하기",
+            "앱 정보 및 라이선스"
         )
 
         AlertDialog.Builder(this)
-            .setTitle("⚙️ 설정")
+            .setTitle("설정")
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> showThemeSettingsDialog()
-                    1 -> showPrivacyPolicyDialog()
-                    2 -> backupMemosToShare()
-                    3 -> shareApp()
-                    4 -> rateApp()
-                    5 -> showAboutAppDialog()
+                    0 -> showPrivacyPolicyDialog()
+                    1 -> backupMemosToShare()
+                    2 -> shareApp()
+                    3 -> rateApp()
+                    4 -> showAboutAppDialog()
                 }
             }
             .setNegativeButton("닫기", null)
-            .show()
-    }
-
-    private fun showThemeSettingsDialog() {
-        val modes = ThemeMode.entries.toTypedArray()
-        val items = modes.map { it.displayName }.toTypedArray()
-        val currentMode = ThemeManager.getSavedThemeMode(this)
-        val selectedIndex = modes.indexOf(currentMode).coerceAtLeast(0)
-
-        var tempSelectedIndex = selectedIndex
-
-        AlertDialog.Builder(this)
-            .setTitle("🎨 앱 테마 설정")
-            .setSingleChoiceItems(items, selectedIndex) { _, which ->
-                tempSelectedIndex = which
-            }
-            .setPositiveButton("적용") { _, _ ->
-                val newMode = modes[tempSelectedIndex]
-                ThemeManager.saveThemeMode(this, newMode)
-                applyTheme()
-            }
-            .setNegativeButton("취소", null)
             .show()
     }
 
@@ -196,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         """.trimIndent()
 
         AlertDialog.Builder(this)
-            .setTitle("📄 개인정보 처리방침")
+            .setTitle("개인정보 처리방침")
             .setMessage(policyText)
             .setPositiveButton("확인", null)
             .show()
@@ -218,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         """.trimIndent()
 
         AlertDialog.Builder(this)
-            .setTitle("ℹ️ 앱 정보 및 라이선스")
+            .setTitle("앱 정보 및 라이선스")
             .setMessage(aboutText)
             .setPositiveButton("확인", null)
             .show()
@@ -267,13 +236,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNav() {
         binding.bottomNav.setOnItemSelectedListener { item ->
-            val palette = ThemeManager.getThemePalette(this)
             when (item.itemId) {
                 R.id.nav_memo -> {
                     isMemoTab = true
                     binding.layoutMemoContainer.visibility = View.VISIBLE
                     binding.layoutCounterContainer.visibility = View.GONE
-                    binding.toolbar.title = "${palette.emoji} 시크릿 메모"
+                    binding.toolbar.title = "시크릿 메모"
                     invalidateOptionsMenu()
                     true
                 }
@@ -282,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                     binding.layoutMemoContainer.visibility = View.GONE
                     binding.layoutCounterContainer.visibility = View.VISIBLE
                     binding.layoutCalendarContainer.visibility = View.GONE
-                    binding.toolbar.title = "${palette.emoji} 카운터 목록"
+                    binding.toolbar.title = "카운터 목록"
                     invalidateOptionsMenu()
                     true
                 }
@@ -454,7 +422,7 @@ class MainActivity : AppCompatActivity() {
                     mainViewModel.selectedDateMillis.collect { dateMillis ->
                         if (dateMillis != null) {
                             binding.layoutFilterInfo.visibility = View.VISIBLE
-                            binding.tvFilterDate.text = "📅 선택된 날짜: ${mainViewModel.formatDate(dateMillis)}"
+                            binding.tvFilterDate.text = "선택된 날짜: ${mainViewModel.formatDate(dateMillis)}"
                         } else {
                             binding.layoutFilterInfo.visibility = View.GONE
                         }

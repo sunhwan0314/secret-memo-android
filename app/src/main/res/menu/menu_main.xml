@@ -10,9 +10,9 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_theme_settings"
+        android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
-        android:title="테마 설정"
+        android:title="설정"
         app:iconTint="@color/white"
         app:showAsAction="always" />
 

@@ -1,5 +1,6 @@
 package com.dev.secretmemo.ui.edit
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -12,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.dev.secretmemo.databinding.ActivityMemoEditBinding
-import com.dev.secretmemo.util.ThemeManager
 import com.dev.secretmemo.widget.MemoAppWidget
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,12 +57,10 @@ class MemoEditActivity : AppCompatActivity() {
     }
 
     private fun applyTheme() {
-        val palette = ThemeManager.getThemePalette(this)
-        binding.root.setBackgroundResource(palette.backgroundResId)
-        binding.toolbarEdit.setBackgroundColor(palette.primaryColor)
-        binding.toolbarEdit.title = "${palette.emoji} 메모 작성"
-        binding.toolbarEdit.setTitleTextColor(android.graphics.Color.WHITE)
-        window.statusBarColor = palette.primaryDarkColor
+        binding.toolbarEdit.setBackgroundColor(Color.parseColor("#09090B"))
+        binding.toolbarEdit.title = "메모 작성"
+        binding.toolbarEdit.setTitleTextColor(Color.WHITE)
+        window.statusBarColor = Color.parseColor("#000000")
     }
 
     private fun setupListeners() {

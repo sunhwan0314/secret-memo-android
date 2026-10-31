@@ -3,12 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Modern Slate Commercial Palette -->
-    <color name="slate_primary">#1E293B</color>
-    <color name="slate_primary_dark">#0F172A</color>
-    <color name="slate_accent">#2563EB</color>
-    <color name="slate_background">#F8FAFC</color>
-    <color name="card_stroke">#E2E8F0</color>
-    <color name="text_primary">#0F172A</color>
-    <color name="text_secondary">#64748B</color>
+    <!-- Ultra-Modern Black & White Monochromatic Palette -->
+    <color name="mono_primary">#09090B</color>
+    <color name="mono_primary_dark">#000000</color>
+    <color name="mono_accent">#09090B</color>
+    <color name="mono_background">#FFFFFF</color>
+    <color name="mono_border">#E4E4E7</color>
+    <color name="mono_text_primary">#09090B</color>
+    <color name="mono_text_secondary">#71717A</color>
 </resources>

@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="1dp"
-    app:strokeColor="#E2E8F0"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E4E4E7"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -29,15 +29,15 @@
                 android:layout_toStartOf="@id/btnPin"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#0F172A"
+                android:textColor="#09090B"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="비밀 메모 제목" />
 
             <ImageButton
                 android:id="@+id/btnPin"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="고정"
@@ -51,7 +51,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textColor="#475569"
+            android:textColor="#52525B"
             android:textSize="14sp"
             tools:text="메모 내용이 이곳에 표시됩니다." />
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="end"
-            android:textColor="#94A3B8"
+            android:textColor="#A1A1AA"
             android:textSize="12sp"
             tools:text="2025-01-01 12:00" />
     </LinearLayout>

@@ -6,9 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="1dp"
-    app:strokeColor="#E2E8F0"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E4E4E7"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -28,15 +28,15 @@
                 android:layout_toStartOf="@id/btnDeleteCounter"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#0F172A"
-                android:textSize="18sp"
+                android:textColor="#09090B"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 tools:text="운동 횟수" />
 
             <ImageButton
                 android:id="@+id/btnDeleteCounter"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="카운터 삭제"
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
             android:gravity="center"
-            android:textColor="#2563EB"
-            android:textSize="42sp"
+            android:textColor="#09090B"
+            android:textSize="40sp"
             android:textStyle="bold"
             tools:text="12" />
 
@@ -67,10 +67,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="-1"
-                android:textColor="#0F172A"
+                android:textColor="#09090B"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:strokeColor="#CBD5E1" />
+                app:strokeColor="#D4D4D8" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnReset"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:text="초기화"
-                android:textColor="#EF4444"
+                android:textColor="#71717A"
                 android:textSize="14sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -89,9 +89,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="+1"
-                android:textColor="#0F172A"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="#09090B" />
         </LinearLayout>
 
     </LinearLayout>
