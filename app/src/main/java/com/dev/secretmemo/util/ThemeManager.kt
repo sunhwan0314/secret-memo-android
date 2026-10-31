@@ -56,37 +56,37 @@ object ThemeManager {
 
         return when (mode) {
             ThemeMode.WINTER -> ThemePalette(
-                primaryColor = Color.parseColor("#C62828"),    // Christmas Red
-                primaryDarkColor = Color.parseColor("#B71C1C"),
-                accentColor = Color.parseColor("#2E7D32"),     // Pine Green
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),    // Slate Charcoal
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#DC2626"),     // Crimson Accent
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_winter,
                 emoji = "🎄",
                 name = "크리스마스 & 겨울"
             )
             ThemeMode.SPRING -> ThemePalette(
-                primaryColor = Color.parseColor("#E91E63"),    // Cherry Blossom Pink
-                primaryDarkColor = Color.parseColor("#C2185B"),
-                accentColor = Color.parseColor("#4CAF50"),     // Soft Green
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),    // Slate Charcoal
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#E11D48"),     // Rose Accent
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_spring,
                 emoji = "🌸",
                 name = "봄 벚꽃"
             )
             ThemeMode.SUMMER -> ThemePalette(
-                primaryColor = Color.parseColor("#0288D1"),    // Ocean Blue
-                primaryDarkColor = Color.parseColor("#01579B"),
-                accentColor = Color.parseColor("#00ACC1"),     // Turquoise
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),    // Slate Charcoal
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#2563EB"),     // Royal Blue Accent
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_summer,
                 emoji = "☀️",
                 name = "여름 바다"
             )
             ThemeMode.AUTUMN -> ThemePalette(
-                primaryColor = Color.parseColor("#E64A19"),    // Maple Orange
-                primaryDarkColor = Color.parseColor("#BF360C"),
-                accentColor = Color.parseColor("#FF8F00"),     // Amber
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),    // Slate Charcoal
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#D97706"),     // Amber Accent
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_autumn,
                 emoji = "🍁",
                 name = "가을 단풍"
@@ -98,37 +98,37 @@ object ThemeManager {
     private fun getThemePaletteForMode(mode: ThemeMode): ThemePalette {
         return when (mode) {
             ThemeMode.WINTER -> ThemePalette(
-                primaryColor = Color.parseColor("#C62828"),
-                primaryDarkColor = Color.parseColor("#B71C1C"),
-                accentColor = Color.parseColor("#2E7D32"),
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#DC2626"),
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_winter,
                 emoji = "🎄",
                 name = "크리스마스 & 겨울 (자동)"
             )
             ThemeMode.SPRING -> ThemePalette(
-                primaryColor = Color.parseColor("#E91E63"),
-                primaryDarkColor = Color.parseColor("#C2185B"),
-                accentColor = Color.parseColor("#4CAF50"),
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#E11D48"),
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_spring,
                 emoji = "🌸",
                 name = "봄 벚꽃 (자동)"
             )
             ThemeMode.SUMMER -> ThemePalette(
-                primaryColor = Color.parseColor("#0288D1"),
-                primaryDarkColor = Color.parseColor("#01579B"),
-                accentColor = Color.parseColor("#00ACC1"),
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#2563EB"),
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_summer,
                 emoji = "☀️",
                 name = "여름 바다 (자동)"
             )
             ThemeMode.AUTUMN -> ThemePalette(
-                primaryColor = Color.parseColor("#E64A19"),
-                primaryDarkColor = Color.parseColor("#BF360C"),
-                accentColor = Color.parseColor("#FF8F00"),
-                backgroundColor = Color.parseColor("#FAFAFA"),
+                primaryColor = Color.parseColor("#1E293B"),
+                primaryDarkColor = Color.parseColor("#0F172A"),
+                accentColor = Color.parseColor("#D97706"),
+                backgroundColor = Color.parseColor("#F8FAFC"),
                 backgroundResId = R.drawable.bg_theme_autumn,
                 emoji = "🍁",
                 name = "가을 단풍 (자동)"

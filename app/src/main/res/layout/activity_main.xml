@@ -152,16 +152,13 @@
 
     </FrameLayout>
 
-    <!-- Compact Sleek Bottom Navigation -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="#FAFFFFFF"
         android:elevation="8dp"
-        app:itemIconSize="22dp"
-        app:itemPaddingBottom="4dp"
-        app:itemPaddingTop="4dp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_bottom_nav" />
 

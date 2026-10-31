@@ -2,12 +2,14 @@ package com.dev.secretmemo
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -119,13 +121,39 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.action_theme_settings -> {
-                        showThemeSettingsDialog()
+                        showSettingsMenuDialog()
                         true
                     }
                     else -> false
                 }
             }
         }, this, Lifecycle.State.RESUMED)
+    }
+
+    private fun showSettingsMenuDialog() {
+        val options = arrayOf(
+            "🎨 계절 테마 설정",
+            "📄 개인정보 처리방침",
+            "💾 메모 백업하기",
+            "🔗 앱 공유하기",
+            "⭐ 플레이스토어 평가하기",
+            "ℹ️ 앱 정보 및 라이선스"
+        )
+
+        AlertDialog.Builder(this)
+            .setTitle("⚙️ 설정")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showThemeSettingsDialog()
+                    1 -> showPrivacyPolicyDialog()
+                    2 -> backupMemosToShare()
+                    3 -> shareApp()
+                    4 -> rateApp()
+                    5 -> showAboutAppDialog()
+                }
+            }
+            .setNegativeButton("닫기", null)
+            .show()
     }
 
     private fun showThemeSettingsDialog() {
@@ -148,6 +176,93 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("취소", null)
             .show()
+    }
+
+    private fun showPrivacyPolicyDialog() {
+        val policyText = """
+            [시크릿 메모 개인정보 처리방침]
+
+            1. 개인정보 처리 목적
+            시크릿 메모 앱은 사용자의 개인 메모 및 카운터 데이터를 관리하기 위한 목적으로만 가동됩니다.
+
+            2. 개인정보 저장 및 암호화
+            작성된 모든 메모와 카운터 데이터는 기기 내부 안드로이드 보안 저장소(EncryptedSharedPreferences)에 AES-256 규격으로 안전하게 암호화되어 보존됩니다.
+
+            3. 개인정보의 외부 전송 및 제3자 제공 금지
+            본 앱은 어떠한 사용자 데이터나 메모 내용도 외부 서버로 전송, 수집, 공유하지 않습니다.
+
+            4. 데이터 삭제
+            사용자가 앱 내에서 메모 및 카운터를 삭제하면 기기 암호화 저장소에서 즉시 완전히 삭제됩니다.
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle("📄 개인정보 처리방침")
+            .setMessage(policyText)
+            .setPositiveButton("확인", null)
+            .show()
+    }
+
+    private fun showAboutAppDialog() {
+        val aboutText = """
+            [시크릿 메모 (Secret Memo)]
+            버전: 1.0.0 (v1)
+            패키지: com.dev.secretmemo
+
+            [사용된 오픈소스 라이선스]
+            - AndroidX & Material3 Components (Apache 2.0)
+            - Koin Framework (Apache 2.0)
+            - Google Gson (Apache 2.0)
+            - Jetpack Security Crypto (Apache 2.0)
+
+            © 2025 Secret Memo. All rights reserved.
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle("ℹ️ 앱 정보 및 라이선스")
+            .setMessage(aboutText)
+            .setPositiveButton("확인", null)
+            .show()
+    }
+
+    private fun shareApp() {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "안전한 암호화 메모 앱 '시크릿 메모'를 사용해 보세요!\nhttps://play.google.com/store/apps/details?id=$packageName")
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, "시크릿 메모 공유하기")
+        startActivity(shareIntent)
+    }
+
+    private fun rateApp() {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+        } catch (_: Exception) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+        }
+    }
+
+    private fun backupMemosToShare() {
+        val memos = mainViewModel.memos.value
+        if (memos.isEmpty()) {
+            Toast.makeText(this, "백업할 메모가 없습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val sb = StringBuilder()
+        sb.append("=== 시크릿 메모 백업 (${memos.size}개) ===\n\n")
+        memos.forEachIndexed { index, memo ->
+            sb.append("${index + 1}. [${memo.title}]\n")
+            sb.append("${memo.content}\n")
+            sb.append("작성일: ${memo.dateFormatted}\n\n")
+        }
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, sb.toString())
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(sendIntent, "메모 백업 공유"))
     }
 
     private fun setupBottomNav() {

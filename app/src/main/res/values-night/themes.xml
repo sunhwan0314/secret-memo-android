@@ -1,7 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MyPlayStore" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/slate_primary</item>
+        <item name="colorPrimaryDark">@color/slate_primary_dark</item>
+        <item name="colorSecondary">@color/slate_accent</item>
+        <item name="android:windowBackground">@color/slate_background</item>
+        <item name="android:statusBarColor">@color/slate_primary_dark</item>
     </style>
+
+    <style name="Theme.MyPlayStore" parent="Base.Theme.MyPlayStore" />
 </resources>
