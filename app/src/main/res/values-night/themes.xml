@@ -4,6 +4,8 @@
         <item name="colorPrimary">@color/mono_primary</item>
         <item name="colorPrimaryDark">@color/mono_primary_dark</item>
         <item name="colorSecondary">@color/mono_accent</item>
+        <item name="colorSecondaryContainer">#E4E4E7</item>
+        <item name="colorOnSecondaryContainer">#09090B</item>
         <item name="android:windowBackground">@color/mono_background</item>
         <item name="android:statusBarColor">@color/mono_primary_dark</item>
     </style>
