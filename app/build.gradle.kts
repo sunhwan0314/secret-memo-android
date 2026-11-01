@@ -42,6 +42,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     
+    // SplashScreen API
+    implementation(libs.androidx.core.splashscreen)
+    
     // Koin
     implementation(libs.koin.android)
     

@@ -1,4 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- SplashScreen Theme -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/mono_primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyPlayStore</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="Base.Theme.MyPlayStore" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/mono_primary</item>

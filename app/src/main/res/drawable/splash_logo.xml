@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Outer Rounded Vessel Container -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M38,32 h44 c5,0 9,4 9,9 v46 c0,5 -4,9 -9,9 h-44 c-5,0 -9,-4 -9,-9 v-46 c0,-5 4,-9 9,-9 z"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Inner Paper Sheet -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M43,41 h34 c2.5,0 4.5,2 4.5,4.5 v33 c0,2.5 -2,4.5 -4.5,4.5 h-34 c-2.5,0 -4.5,-2 -4.5,-4.5 v-33 c0,-2.5 2,-4.5 4.5,-4.5 z" />
+
+    <!-- Stylized "ㄷ" (Damda) Symbol -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M65,51 H51 V71 H65"
+        android:strokeWidth="4.5"
+        android:strokeColor="#09090B"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Top Corner Blue Accent Dot -->
+    <path
+        android:fillColor="#2563EB"
+        android:pathData="M72,51 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+
+</vector>
